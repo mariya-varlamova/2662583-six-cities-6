@@ -1,11 +1,13 @@
-import PlaceCard from '../../place-card/place-card';
 import { Link } from 'react-router-dom';
+import { Offer } from '../../../mocks/offers';
+import OffersList from '../../offers-list/offers-list';
 
 type MainPageProps = {
   offersCount: number;
+  offers: Offer[];
 }
 
-function MainPage({ offersCount }: MainPageProps): JSX.Element{
+function MainPage({ offersCount, offers }: MainPageProps): JSX.Element{
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -19,7 +21,7 @@ function MainPage({ offersCount }: MainPageProps): JSX.Element{
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to="#">
+                  <Link className="header__nav-link header__nav-link--profile" to="/favorites">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
@@ -95,13 +97,7 @@ function MainPage({ offersCount }: MainPageProps): JSX.Element{
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard/>
-                <PlaceCard/>
-                <PlaceCard/>
-                <PlaceCard/>
-                <PlaceCard/>
-              </div>
+              <OffersList offers={offers} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
