@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { Offer } from '../../../mocks/offers';
 import OffersList from '../../offers-list/offers-list';
-
+import Map from '../../map/map';
 type MainPageProps = {
   offersCount: number;
   offers: Offer[];
 }
 
 function MainPage({ offersCount, offers }: MainPageProps): JSX.Element{
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -97,10 +99,12 @@ function MainPage({ offersCount, offers }: MainPageProps): JSX.Element{
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} />
+              <OffersList offers={offers} onActiveOfferChange={setActiveOfferId}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map offers={offers} activeOfferId={activeOfferId} />
+              </section>
             </div>
           </div>
         </div>

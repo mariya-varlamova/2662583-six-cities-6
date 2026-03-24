@@ -9,3 +9,12 @@ export const RATINGS = [
 export const MIN_COMMENT_LENGTH = 50;
 
 
+export const URL_MARKER_DEFAULT = 'img/pin.svg';
+export const URL_MARKER_ACTIVE = 'img/pin-active.svg';
+
+export const MARKER_SIZES = {
+  width: 27,
+  height: 39,
+  anchorX: 13,
+  anchorY: 39
+} as const;

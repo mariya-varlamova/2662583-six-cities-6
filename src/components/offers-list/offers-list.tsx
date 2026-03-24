@@ -4,13 +4,23 @@ import { Offer } from '../../mocks/offers';
 
 type OffersListProps = {
   offers: Offer[];
+  onActiveOfferChange?: (offerId: string | null) => void;
 }
 
-function OffersList({ offers }: OffersListProps): JSX.Element {
+function OffersList({ offers, onActiveOfferChange }: OffersListProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   const handleMouseEnter = (offerId: string) => {
     setActiveOfferId(offerId);
+    if (onActiveOfferChange) {
+      onActiveOfferChange(offerId);
+    }
+  };
+  const handleMouseLeave = () => {
+    setActiveOfferId(null);
+    if (onActiveOfferChange) {
+      onActiveOfferChange(null);
+    }
   };
   void activeOfferId;
   return (
@@ -19,7 +29,7 @@ function OffersList({ offers }: OffersListProps): JSX.Element {
         <div
           key={offer.id}
           onMouseEnter={() => handleMouseEnter(offer.id)}
-          onMouseLeave={() => setActiveOfferId(null)}
+          onMouseLeave={handleMouseLeave}
         >
           <PlaceCard
             offer={offer}
