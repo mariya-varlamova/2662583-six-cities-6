@@ -12,6 +12,8 @@ type MapProps = {
 function Map({ offers, activeOfferId }: MapProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<leaflet.Map | null>(null);
+  const markerLayerRef = useRef<leaflet.LayerGroup | null>(null);
+  const currentCityRef = useRef<string>('');
 
   useEffect(() => {
     if (mapRef.current && !mapInstanceRef.current && offers.length > 0) {
@@ -28,6 +30,9 @@ function Map({ offers, activeOfferId }: MapProps): JSX.Element {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           })
           .addTo(mapInstanceRef.current);
+
+        markerLayerRef.current = leaflet.layerGroup().addTo(mapInstanceRef.current);
+        currentCityRef.current = city.name;
       }
     }
 
@@ -35,26 +40,30 @@ function Map({ offers, activeOfferId }: MapProps): JSX.Element {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
+        markerLayerRef.current = null;
       }
     };
   }, [offers]);
 
   useEffect(() => {
-    if (mapInstanceRef.current && offers.length > 0) {
+    const map = mapInstanceRef.current;
+    if (map && offers.length > 0) {
       const city = offers[0]?.city;
-
-      if (city) {
-        mapInstanceRef.current.setView(
+      if (city && currentCityRef.current !== city.name) {
+        map.setView(
           [city.location.latitude, city.location.longitude],
           city.location.zoom
         );
+        currentCityRef.current = city.name;
       }
     }
   }, [offers]);
 
   useEffect(() => {
-    if (mapInstanceRef.current && offers.length > 0) {
-      const markerLayer = leaflet.layerGroup().addTo(mapInstanceRef.current);
+    const map = mapInstanceRef.current;
+    const markerLayer = markerLayerRef.current;
+    if (map && markerLayer) {
+      markerLayer.clearLayers();
 
       offers.forEach((offer) => {
         const isActive = offer.id === activeOfferId;
@@ -68,10 +77,6 @@ function Map({ offers, activeOfferId }: MapProps): JSX.Element {
           .marker([offer.location.latitude, offer.location.longitude], { icon })
           .addTo(markerLayer);
       });
-
-      return () => {
-        markerLayer.clearLayers();
-      };
     }
   }, [offers, activeOfferId]);
 

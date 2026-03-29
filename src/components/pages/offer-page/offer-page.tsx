@@ -20,8 +20,10 @@ function OfferPage({ offers, allOffers }: OfferPageProps):JSX.Element{
   }
 
   const nearbyOffers = allOffers
-    .filter((item) => item.id !== offer.id)
+    .filter((item) => item.id !== offer.id && item.city.name === offer.city.name)
     .slice(0, MAX_NEARBY_OFFERS);
+
+  const mapOffers = [offer, ...nearbyOffers];
 
   const handleReviewSubmit = (rating: number, comment: string) => {
     void rating;
@@ -155,7 +157,7 @@ function OfferPage({ offers, allOffers }: OfferPageProps):JSX.Element{
             </div>
           </div>
           <section className="offer__map map">
-            <Map offers={nearbyOffers} activeOfferId={null} />
+            <Map offers={mapOffers} activeOfferId={offer.id} />
           </section>
         </section>
         <div className="container">

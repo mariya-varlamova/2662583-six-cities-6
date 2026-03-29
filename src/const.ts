@@ -10,6 +10,15 @@ export const MIN_COMMENT_LENGTH = 50;
 
 export const MAX_NEARBY_OFFERS = 3;
 
+export const CITIES = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf'
+] as const;
+
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_ACTIVE = 'img/pin-active.svg';
