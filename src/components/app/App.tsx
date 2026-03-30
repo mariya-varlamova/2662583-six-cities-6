@@ -26,7 +26,7 @@ function App({ offersCount, offers, extendedOffers }: AppProps): JSX.Element{
             </PrivateRoute>
           }
         />
-        <Route path="/offer/:id" element={<OfferPage offers={extendedOffers}/>} />
+        <Route path="/offer/:id" element={<OfferPage offers={extendedOffers} allOffers={offers}/>} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

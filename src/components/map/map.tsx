@@ -14,7 +14,7 @@ function Map({ offers, activeOfferId }: MapProps): JSX.Element {
   const mapInstanceRef = useRef<leaflet.Map | null>(null);
 
   useEffect(() => {
-    if (mapRef.current && !mapInstanceRef.current) {
+    if (mapRef.current && !mapInstanceRef.current && offers.length > 0) {
       const city = offers[0]?.city;
 
       if (city) {
@@ -40,7 +40,7 @@ function Map({ offers, activeOfferId }: MapProps): JSX.Element {
   }, [offers]);
 
   useEffect(() => {
-    if (mapInstanceRef.current) {
+    if (mapInstanceRef.current && offers.length > 0) {
       const city = offers[0]?.city;
 
       if (city) {
@@ -53,7 +53,7 @@ function Map({ offers, activeOfferId }: MapProps): JSX.Element {
   }, [offers]);
 
   useEffect(() => {
-    if (mapInstanceRef.current) {
+    if (mapInstanceRef.current && offers.length > 0) {
       const markerLayer = leaflet.layerGroup().addTo(mapInstanceRef.current);
 
       offers.forEach((offer) => {

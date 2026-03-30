@@ -1,18 +1,32 @@
 import { Link, useParams } from 'react-router-dom';
-import { ExtendedOffer } from '../../../mocks/offers';
-import PlaceCard from '../../place-card/place-card';
+import { ExtendedOffer, Offer } from '../../../mocks/offers';
+import { reviews } from '../../../mocks/reviews';
+import PlaceCardNear from '../../place-card-near/place-card-near';
 import ReviewForm from '../../review-form/review-form';
+import ReviewsList from '../../reviews-list/reviews-list';
+import Map from '../../map/map';
+import { MAX_NEARBY_OFFERS } from '../../../const';
 
 type OfferPageProps = {
   offers: ExtendedOffer[];
+  allOffers: Offer[];
 }
-function OfferPage({ offers }: OfferPageProps):JSX.Element{
+function OfferPage({ offers, allOffers }: OfferPageProps):JSX.Element{
   const { id } = useParams();
   const offer = offers.find((item) => item.id === id);
 
   if (!offer) {
     return <div>Offer not found</div>;
   }
+
+  const nearbyOffers = allOffers
+    .filter((item) => item.id !== offer.id)
+    .slice(0, MAX_NEARBY_OFFERS);
+
+  const handleReviewSubmit = (rating: number, comment: string) => {
+    void rating;
+    void comment;
+  };
 
   return (
     <div className="page">
@@ -134,47 +148,23 @@ function OfferPage({ offers }: OfferPageProps):JSX.Element{
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar"/>
-                      </div>
-                      <span className="reviews__user-name">
-                        Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{ width: '100%' }}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                        Link quiet cozy and picturesque that hides behind Link Link river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
-                <ReviewForm onSubmit={() => {}}/>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+                <ReviewsList reviews={reviews} />
+                <ReviewForm onSubmit={handleReviewSubmit} />
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <section className="offer__map map">
+            <Map offers={nearbyOffers} activeOfferId={null} />
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {offers
-                .filter((item) => item.id !== offer.id)
-                .slice(0, 3)
-                .map((place) => (
-                  <PlaceCard key={place.id} offer={place} />
-                ))}
+              {nearbyOffers.map((place) => (
+                <PlaceCardNear key={place.id} offer={place} />
+              ))}
             </div>
           </section>
         </div>
