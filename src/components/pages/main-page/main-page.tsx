@@ -1,28 +1,16 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Offer } from '../../../mocks/offers';
+import {useSelector } from 'react-redux';
 import OffersList from '../../offers-list/offers-list';
 import Map from '../../map/map';
 import CitiesList from '../../cities-list/cities-list';
-import { loadOffers } from '../../../store/action';
 import { RootState } from '../../../store';
 
-type MainPageProps = {
-  offers: Offer[];
-}
 
-function MainPage({ offers }: MainPageProps): JSX.Element {
-  const dispatch = useDispatch();
+function MainPage(): JSX.Element {
   const currentCity = useSelector((state: RootState) => state.city);
   const allOffers = useSelector((state: RootState) => state.offers);
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (offers.length > 0) {
-      dispatch(loadOffers(offers));
-    }
-  }, [offers, dispatch]);
 
   const filteredOffers = useMemo(() =>
     allOffers.filter((offer) => offer.city.name === currentCity), [allOffers, currentCity]
