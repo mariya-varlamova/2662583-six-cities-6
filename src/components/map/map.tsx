@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Offer } from '../../mocks/offers';
+import { Offer } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../../const';
 
 type MapProps = {

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Offer } from '../../mocks/offers';
+import { Offer } from '../../types/offer';
 
 type FavoritesListProps = {
   favoritesByCity: Record<string, Offer[]>;
