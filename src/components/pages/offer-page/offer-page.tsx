@@ -1,7 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import { reviews } from '../../../mocks/reviews';
 import PlaceCardNear from '../../place-card-near/place-card-near';
 import ReviewForm from '../../review-form/review-form';
 import ReviewsList from '../../reviews-list/reviews-list';
@@ -141,8 +140,8 @@ function OfferPage(): JSX.Element {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviews.length}</span></h2>
-                <ReviewsList reviews={reviews} />
+                <h2 className="reviews__title">Reviews · <span className="reviews__amount">0</span></h2>
+                <ReviewsList reviews={[]} />
                 <ReviewForm onSubmit={handleReviewSubmit} />
               </section>
             </div>

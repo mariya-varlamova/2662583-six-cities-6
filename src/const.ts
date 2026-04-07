@@ -29,3 +29,10 @@ export const MARKER_SIZES = {
   anchorX: 13,
   anchorY: 39
 } as const;
+
+export const SORT_OPTIONS = [
+  'Popular',
+  'Price: low to high',
+  'Price: high to low',
+  'Top rated first'
+] as const;
